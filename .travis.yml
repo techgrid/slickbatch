@@ -1,9 +1,6 @@
-language: java
-jdk:
-  - openjdk11
-
-services:
-  - docker
+language: node_js
+node_js:
+  - "10"
 
 stages:
   - build
@@ -13,6 +10,6 @@ stages:
 jobs:
   include:
     - stage: build
-      script: ./gradlew clean build jacocoTestReport codacyUpload
+      script: npm run build
     - stage: publish
-      script: ./gradlew clean build -Dbuild.number=$TRAVIS_BUILD_NUMBER
+      script: echo 'Not available'
