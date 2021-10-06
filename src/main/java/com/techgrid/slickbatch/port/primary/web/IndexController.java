@@ -12,9 +12,13 @@ public class IndexController {
     private AwsBatchMockService service;
 
     @GetMapping("/console")
-    public String index(Model model) {
+    public String console(Model model) {
         model.addAttribute("jobs", service.allJobs());
         return "index";
     }
 
+    @GetMapping("/")
+    public String index(Model model) {
+        return console(model);
+    }
 }

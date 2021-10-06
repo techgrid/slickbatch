@@ -1,2 +1,19 @@
 server:
   port: 8763
+spring:
+  main:
+    banner-mode: "off"
+logging:
+  level:
+    root: ERROR
+
+slickbatch:
+  stage:
+    wait-ms:
+      SUBMITTED: 5000
+      PENDING: 5000
+      RUNNABLE: 5000
+      STARTING: 5000
+      RUNNING: 120000
+      FAILED: 1800000 # 30 Minutes
+      SUCCEEDED: 1800000 # 30 Minutes

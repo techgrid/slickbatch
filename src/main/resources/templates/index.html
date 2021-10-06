@@ -37,9 +37,9 @@
                         <td th:text="${job.jobName}"></td>
                         <td th:text="${job.status}"></td>
                         <td th:text="${job.statusReason}"></td>
-                        <td th:text="${job.createdAt}"></td>
-                        <td th:text="${job.startedAt}"></td>
-                        <td th:text="${job.stoppedAt}"></td>
+                        <td th:text="${job.createdAt} ? ${#dates.format(new java.util.Date(job.createdAt), 'MM/dd/yyyy HH:mm:ss')} : ''"></td>
+                        <td th:text="${job.startedAt} ? ${#dates.format(new java.util.Date(job.startedAt), 'MM/dd/yyyy HH:mm:ss')} : ''"></td>
+                        <td th:text="${job.stoppedAt} ? ${#dates.format(new java.util.Date(job.stoppedAt), 'MM/dd/yyyy HH:mm:ss')} : ''"></td>
                     </tr>
                     </tbody>
                 </table>
