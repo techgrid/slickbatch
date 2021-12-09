@@ -19,7 +19,7 @@ public class AwsBatchMockApi {
     @PostMapping(value = "/submitjob", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<SubmitJobResult> submitJob(@RequestBody SubmitJobRequest request) {
         try {
-            SBLogger.info("Submitting job: " + request.getJobName());
+            SBLogger.info("Submitting job: " + request.getJobName() + ", Queue: " + request.getJobQueue());
             return ResponseEntity.ok(service.submitJob(request));
         } catch (Exception ex) {
             SBLogger.error(ex.getMessage());
@@ -30,7 +30,7 @@ public class AwsBatchMockApi {
     @PostMapping(value = "/listjobs", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<ListJobsResult> listJobs(@RequestBody ListJobsRequest request) {
         try {
-            SBLogger.info("Processing list job request");
+            SBLogger.info(String.format("Processing list job request for queue: %s", request.getJobQueue()));
             return ResponseEntity.ok(service.listJobs(request));
         } catch (Exception ex) {
             SBLogger.error(ex.getMessage());

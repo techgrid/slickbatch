@@ -30,6 +30,7 @@ public class AwsBatchMockService {
             "FAILED", "DELETED");
 
     private static final Map<String, JobDetail> jobDetails = new HashMap<>();
+    private static final Map<String, String> jobQueue = new HashMap<>();
     private static final Map<String, Long> stateTransitionTimestamp = new HashMap<>();
 
     private static final Map<String, Consumer<JobDetail>> stateTransitionMap = Map.of(
@@ -96,6 +97,8 @@ public class AwsBatchMockService {
                 .withParameters(request.getParameters())
                 .withTimeout(request.getTimeout());
         jobDetails.put(job.getJobId(), job);
+        jobQueue.put(job.getJobId(), request.getJobQueue());
+
         stateTransitionTimestamp.put(job.getJobId(), job.getCreatedAt());
 
         SBLogger.success("Job (" + job.getJobName() + ") created with id: " + job.getJobId());
@@ -115,11 +118,12 @@ public class AwsBatchMockService {
     }
 
     private boolean filterJobDetails(JobDetail jd, ListJobsRequest request) {
-        return jd.getStatus().equals(request.getJobStatus()) || (
+        return jobQueue.get(jd.getJobId()).equals(request.getJobQueue()) &&
+                (jd.getStatus().equals(request.getJobStatus()) || (
                     null != request.getFilters() && request.getFilters().stream()
                             .filter(k -> "JOB_NAME".equals(k.getName()))
                             .map(KeyValuesPair::getValues)
-                            .anyMatch(names -> names.contains(jd.getJobName())));
+                            .anyMatch(names -> names.contains(jd.getJobName()))));
     }
 
     public DescribeJobsResult describeJob(DescribeJobsRequest request) {
